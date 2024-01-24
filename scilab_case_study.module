@@ -453,15 +453,7 @@ function scilab_case_study_check_code_number($number = '')
 }
 function scilab_case_study_path()
 {
-    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'scilab_uploads/case_study_uploads/';
-}
-function scilab_case_study_file_path($value = '')
-{
-    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'scilab_uploads/';
-}
-function scilab_case_study_project_titles_resource_file_path()
-{
-    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'scilab_uploads/case_project_titles_resource_files/';
+    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'case_study_uploads/';
 }
 /************************* USER VERIFICATION FUNCTIONS ************************/
 function scilab_case_study_get_proposal()
