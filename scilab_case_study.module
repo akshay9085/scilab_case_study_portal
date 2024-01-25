@@ -277,7 +277,7 @@ function scilab_case_study_menu()
             'scilab_case_study_settings_form',
         ),
         'access arguments' => array(
-            'administer  Case Study',
+            'administer Case Study',
         ),
         'type' => MENU_NORMAL_ITEM,
         'file' => 'settings.inc',
@@ -395,8 +395,8 @@ function scilab_case_study_permission()
             'title' => t('Case Study download code'),
             'restrict access' => true,
         ),
-        'administer  Case Study' => array(
-            'title' => t('administer  Case Study'),
+        'administer Case Study' => array(
+            'title' => t('administer Case Study'),
             'restrict access' => true,
         ),
         'Case Study generate abstract' => array(
