@@ -86,7 +86,8 @@ function scilab_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE
 		'#attributes' => array(
 			'placeholder' => t('Enter your contact number')
 		),
-		'#maxlength' => 250
+		'#maxlength' => 10,
+		'#required' => TRUE
 	);
 	$form['university'] = array(
 		'#type' => 'textfield',
@@ -240,7 +241,8 @@ function scilab_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE
 	$form['pincode'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Pincode'),
-		'#size' => 6
+		'#size' => 6,
+		'#maxlength' => 6
 	);
 	/***************************************************************************/
 	$form['hr'] = array(

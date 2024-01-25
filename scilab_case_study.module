@@ -631,9 +631,9 @@ function _cs_dir_name($project, $proposar_name)
 }
 function scilab_case_study_document_path()
 {
-    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'scilab_uploads/case_study_uploads/';
+    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'case_study_uploads/';
 }
-function DF_RenameDir($proposal_id, $dir_name)
+function CS_RenameDir($proposal_id, $dir_name)
 {
     $proposal_id = $proposal_id;
     $dir_name = $dir_name;
@@ -641,6 +641,7 @@ function DF_RenameDir($proposal_id, $dir_name)
         ':proposal_id' => $proposal_id,
     ));
     $result = $query->fetchObject();
+//    var_dump($dir_name . $result->directory_name);
     if ($result != null) {
         $files = scandir(scilab_case_study_path());
         $files_id_dir = scilab_case_study_path() . $result->id;

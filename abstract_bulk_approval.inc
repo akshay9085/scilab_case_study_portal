@@ -125,7 +125,7 @@ function scilab_case_study_abstract_bulk_approval_form_submit($form, &$form_stat
 							':submitted_abstract_id' => $abstract_data->id
 						));
 					} //$abstract_data = $abstracts_q->fetchObject()
-					drupal_set_message(t('Approved case study project.'), 'status');
+					drupal_set_message(t('Approved case study project. Use the checkbox below to publish this case study on the completed case studies page.'), 'status');
 					// email 
 					$email_subject = t('[!site_name][case study Project] Your uploaded case study project have been approved', array(
 						'!site_name' => variable_get('site_name', '')
@@ -167,6 +167,7 @@ FOSSEE,IIT Bombay', array(
 					{
 						$msg = drupal_set_message('Error sending email message.', 'error');
 					} //!drupal_mail('scilab_case_study', 'standard', $email_to, language_default(), $params, $from, TRUE)
+					drupal_goto('case-study-project/manage-proposal/status/' . $form_state['values']['case_study_project']);
 				} //$form_state['values']['case_study_actions'] == 1
 				elseif ($form_state['values']['case_study_actions'] == 2)
 				{

@@ -818,12 +818,6 @@ function scilab_case_study_proposal_edit_form($form, &$form_state)
         '#required' => true,
         '#default_value' => $proposal_data->institute,
     );
-    $form['how_did_you_know_about_project'] = array(
-        '#type' => 'textfield',
-        '#title' => t('How did you come to know about the Case Study Project?'),
-        '#default_value' => $proposal_data->how_did_you_know_about_project,
-        '#required' => true,
-    );
     $form['faculty_name'] = array(
         '#type' => 'textfield',
         '#title' => t('Name of the Faculty'),
@@ -911,7 +905,7 @@ function scilab_case_study_proposal_edit_form($form, &$form_state)
     $form['all_state'] = array(
         '#type' => 'select',
         '#title' => t('State'),
-        '#options' => _df_list_of_states(),
+        '#options' => _cs_list_of_states(),
         '#default_value' => $proposal_data->state,
         '#validated' => true,
         '#states' => array(
@@ -925,7 +919,7 @@ function scilab_case_study_proposal_edit_form($form, &$form_state)
     $form['city'] = array(
         '#type' => 'select',
         '#title' => t('City'),
-        '#options' => _df_list_of_cities(),
+        '#options' => _cs_list_of_cities(),
         '#default_value' => $proposal_data->city,
         '#states' => array(
             'visible' => array(
@@ -953,67 +947,16 @@ function scilab_case_study_proposal_edit_form($form, &$form_state)
         '#required' => true,
         '#default_value' => $proposal_data->project_title,
     );
-    $version_options = _cs_list_of_versions();
-    $form['version'] = array(
-        '#type' => 'select',
-        '#title' => t('Version used'),
-        '#options' => $version_options,
-        '#default_value' => $proposal_data->version_id
-    );
-    $simulation_type_options = _cs_list_of_simulation_types();
-    $form['simulation_type'] = array(
-        '#type' => 'select',
-        '#title' => t('Simulation Type used'),
-        '#options' => $simulation_type_options,
-        '#default_value' => $proposal_data->simulation_type_id,
-        '#ajax' => array(
-            'callback' => 'ajax_solver_used_callback',
-        ),
-    );
-    $simulation_id = isset($form_state['values']['simulation_type']) ? $form_state['values']['simulation_type'] : $proposal_data->simulation_type_id;
-
-    $form['solver_used'] = array(
-        '#type' => 'select',
-        '#title' => t('Select the Solver to be used'),
-        '#options' => _cs_list_of_solvers($simulation_id),
-        '#prefix' => '<div id="ajax-solver-replace">',
-        '#suffix' => '</div>',
-        '#states' => array(
-                'invisible' => array(
-                    ':input[name="simulation_type"]' => array(
-                        'value' => 19
-                    )
-                )
-            ),
-        //'#required' => TRUE
-        '#default_value' => $proposal_data->solver_used,
-    );
-    
-    $form['solver_used_text'] = array(
+    $form['operating_system'] = array(
         '#type' => 'textfield',
-        '#title' => t('Enter the Solver to be used'),
-        '#size' => 100,
-        '#description' => t('Maximum character limit is 50'),
-        //'#required' => TRUE,
-        '#prefix' => '<div id="ajax-solver-text-replace">',
-        '#suffix' => '</div>',
-        '#states' => array(
-                'visible' => array(
-                    ':input[name="simulation_type"]' => array(
-                        'value' => 19
-                    )
-                )
-            ),
-         '#default_value' => $proposal_data->solver_used
+        '#title' => t('Operating System'),
+        '#default_value' => $proposal_data->operating_system
     );
-   /* $form['solver_used'] = array(
+    $form['scilab_version'] = array(
         '#type' => 'textfield',
-        '#title' => t('Solver to be used'),
-        '#size' => 50,
-        '#maxlength' => 50,
-        '#required' => true,
-        '#default_value' => $proposal_data->solver_used,
-    );*/
+        '#title' => t('Scilab Version used'),
+        '#default_value' => $proposal_data->scilab_version
+    );
     $form['date_of_proposal'] = array(
         '#type' => 'textfield',
         '#title' => t('Date of Proposal'),
@@ -1035,49 +978,8 @@ function scilab_case_study_proposal_edit_form($form, &$form_state)
     return $form;
 }
 
-function ajax_solver_used_callback($form, $form_state){
-    $simulation_id = isset($form_state['values']['simulation_type']) ? $form_state['values']['simulation_type'] : key($simulation_type_options);
-    if($simulation_id < 19){
-        $form['solver_used']['#options'] = _cs_list_of_solvers($simulation_id);
-        $form['solver_used']['#required'] = TRUE;
-        $form['solver_used']['#validated'] = TRUE;
-        $commands[] = ajax_command_replace('#ajax-solver-replace', drupal_render($form['solver_used']));
-        $commands[] = ajax_command_html('#ajax-solver-text-replace', '');
-    }
-    else{
-        $commands[] = ajax_command_html('#ajax-solver-replace', '');
-        $form['solver_used_text']['#required'] = TRUE;
-        $form['solver_used_text']['#validated'] = TRUE;
-        $commands[] = ajax_command_replace('#ajax-solver-text-replace', drupal_render($form['solver_used_text']));
-    }
-    return array(
-        '#type' => 'ajax',
-        '#commands' => $commands
-    );
-}
 function scilab_case_study_proposal_edit_form_validate($form, $form_state){
-    if ($form_state['values']['simulation_type'] < 19) {
-        if($form_state['values']['solver_used'] == '0'){
-            form_set_error('solver_used', t('Please select an option'));
-        }
-    }
-    else if ($form_state['values']['simulation_type'] == 19) {
-    if ($form_state['values']['solver_used_text'] != '')
-    {
-        if (strlen($form_state['values']['solver_used_text']) > 100)
-        {
-            form_set_error('solver_used_text', t('Maximum charater limit is 100 charaters only, please check the length of the solver used'));
-        } //strlen($form_state['values']['project_title']) > 250
-        else if (strlen($form_state['values']['solver_used_text']) < 7)
-        {
-            form_set_error('solver_used_text', t('Minimum charater limit is 7 charaters, please check the length of the solver used'));
-        } //strlen($form_state['values']['project_title']) < 10
-    } 
-    else
-    {
-        form_set_error('solver_used_text', t('Solver used cannot be empty'));
-    }
-    }
+    
 }
 function scilab_case_study_proposal_edit_form_submit($form, &$form_state)
 {
@@ -1141,26 +1043,21 @@ function scilab_case_study_proposal_edit_form_submit($form, &$form_state)
     $project_title = $v['project_title'];
     $proposar_name = $v['name_title'] . ' ' . $v['contributor_name'];
     $university = $v['university'];
-    $directory_names = _df_dir_name($project_title, $proposar_name);
-    if (DF_RenameDir($proposal_id, $directory_names)) {
+    $directory_names = _cs_dir_name($project_title, $proposar_name);
+    if (CS_RenameDir($proposal_id, $directory_names)) {
         $directory_name = $directory_names;
     } //LM_RenameDir($proposal_id, $directory_names)
     else {
         return;
     }
-    $simulation_id = $v['simulation_type'];
-    if($simulation_id < 19){
-        $solver = $v['solver_used'];
-    }
-    else{
-        $solver = $v['solver_used_text'];
-    }
+    $str = substr($proposal_data->samplefilepath, strrpos($proposal_data->samplefilepath, '/'));
+        $resource_file = ltrim($str, '/');
+    $samplefilepath = $directory_name . '/' . $resource_file;
     $query = "UPDATE case_study_proposal SET
 				name_title=:name_title,
 				contributor_name=:contributor_name,
 				university=:university,
 				institute=:institute,
-				how_did_you_know_about_project = :how_did_you_know_about_project,
 				faculty_name = :faculty_name,
 				faculty_department = :faculty_department,
 				faculty_email = :faculty_email,
@@ -1168,17 +1065,16 @@ function scilab_case_study_proposal_edit_form_submit($form, &$form_state)
 				pincode=:pincode,
 				state=:state,
 				project_title=:project_title,
-                version_id=:version_id,
-                simulation_type_id=:simulation_type_id,
-				solver_used=:solver_used,
-				directory_name=:directory_name
+                operating_system=:operating_system,
+                scilab_version=:scilab_version,
+				directory_name=:directory_name,
+                samplefilepath = :samplefilepath
 				WHERE id=:proposal_id";
     $args = array(
         ':name_title' => $v['name_title'],
         ':contributor_name' => $v['contributor_name'],
         ':university' => $v['university'],
         ":institute" => $v['institute'],
-        ":how_did_you_know_about_project" => $v['how_did_you_know_about_project'],
         ":faculty_name" => $v['faculty_name'],
         ":faculty_department" => $v['faculty_department'],
         ":faculty_email" => $v['faculty_email'],
@@ -1186,10 +1082,10 @@ function scilab_case_study_proposal_edit_form_submit($form, &$form_state)
         ':pincode' => $v['pincode'],
         ':state' => $v['all_state'],
         ':project_title' => $project_title,
-        ':version_id' => $v['version'],
-        ':simulation_type_id' => $simulation_id,
-        ":solver_used" => $solver,
+        ':operating_system' => $v['operating_system'],
+        ':scilab_version' => $v['scilab_version'],
         ':directory_name' => $directory_name,
+        ':samplefilepath' => $samplefilepath,
         ':proposal_id' => $proposal_id,
     );
     $result = db_query($query, $args);

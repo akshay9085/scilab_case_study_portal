@@ -24,7 +24,7 @@ function scilab_case_study_mail($key, &$message, $params)
             ));
             $message['body'] = array(
                 'body' => t('
-Dear !user_name,
+Dear' . $proposal_data->contributor_name . ',
 
 We have received your  Case Study Project proposal with the following details:
 
@@ -43,7 +43,7 @@ Your proposal is under review. You will soon receive an email when same has been
 Best Wishes,
 
 !site_name Team,
-FOSSEE,IIT Bombay', array(
+FOSSEE, IIT Bombay', array(
                     '!site_name' => variable_get('site_name', ''),
                     '!user_name' => $user->name,
                 ), array(
@@ -68,7 +68,7 @@ FOSSEE,IIT Bombay', array(
             ));
             $message['body'] = array(
                 'body' => t('
-Dear !user_name,
+Dear' . $proposal_data->contributor_name . ',
 
 We regret to inform you that your  Case Study proposal with following details have been disapproved:
 
@@ -90,7 +90,7 @@ You are welcome to submit a new proposal.
 Best Wishes,
 
 !site_name Team,
-FOSSEE,IIT Bombay', array(
+FOSSEE, IIT Bombay', array(
                     '!site_name' => variable_get('site_name', ''),
                     '!user_name' => $user_data->name,
                 ), array(
@@ -115,7 +115,7 @@ FOSSEE,IIT Bombay', array(
             ));
             $message['body'] = array(
                 'body' => t('
-Dear !user_name,
+Dear' . $proposal_data->contributor_name . ',
 
 Your  Case Study Project proposal with the following details has been approved:
 
@@ -134,7 +134,7 @@ You can upload your project files at: ' . $url . '
 Best Wishes,
 
 !site_name Team,
-FOSSEE,IIT Bombay', array(
+FOSSEE, IIT Bombay', array(
                     '!site_name' => variable_get('site_name', ''),
                     '!user_name' => $user_data->name,
                 ), array(
@@ -158,7 +158,7 @@ FOSSEE,IIT Bombay', array(
             ));
             $message['body'] = array(
                 'body' => t('
-Dear !user_name,
+Dear' . $proposal_data->contributor_name . ',
 
 Your  Case Study and abstract on the following process have been completed successfully.
 
@@ -172,7 +172,7 @@ Project Title: ' . $proposal_data->project_title . '
 Best Wishes,
 
 !site_name Team,
-FOSSEE,IIT Bombay', array(
+FOSSEE, IIT Bombay', array(
                     '!site_name' => variable_get('site_name', ''),
                     '!user_name' => $user_data->name,
                 ), array(
@@ -196,7 +196,7 @@ FOSSEE,IIT Bombay', array(
             ));
             $message['body'] = array(
                 'body' => t('
-Dear !user_name,
+Dear' . $proposal_data->contributor_name . ',
 
 Your  Case Study Project proposal with the following details has been deleted :
 
@@ -213,7 +213,7 @@ You can propose a new Case Study project.
 Best Wishes,
 
 !site_name Team,
-FOSSEE,IIT Bombay', array(
+FOSSEE, IIT Bombay', array(
                     '!site_name' => variable_get('site_name', ''),
                     '!user_name' => $user_data->name,
                 ), array(
@@ -239,7 +239,7 @@ FOSSEE,IIT Bombay', array(
             $message['headers'] = $params['abstract_uploaded']['headers'];
             $message['body'] = array(
                 'body' => t('
-Dear !user_name,
+Dear' . $proposal_data->contributor_name . ',
 
 You have uploaded the following Abstract and Project files:
 
@@ -251,7 +251,7 @@ The abstract and project files are under review. You will be notified when it ha
 Best Wishes,
 
 !site_name Team,
-FOSSEE,IIT Bombay', array(
+FOSSEE, IIT Bombay', array(
                     '!site_name' => variable_get('site_name', ''),
                     '!user_name' => $user->name,
                 ), array(
@@ -280,7 +280,7 @@ FOSSEE,IIT Bombay', array(
             $message['headers'] = $params['abstract_edit_file_uploaded']['headers'];
             $message['body'] = array(
                 'body' => t('
-Dear !user_name,
+Dear' . $proposal_data->contributor_name . ',
 
 You have updated the abstract/ project files for the following case study:
 

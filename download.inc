@@ -37,13 +37,14 @@ function scilab_case_study_download_final_report() {
 	$scilab_case_study_project_files = $result->fetchObject();
 	$query = db_select('case_study_submitted_abstracts_file');
 	$query->fields('case_study_submitted_abstracts_file');
-	$query->condition('proposal_id', $id);
+	$query->condition('proposal_id', $proposal_id);
 	$query->condition('filetype', 'A');
 	$project_files = $query->execute();
 	$final_report_data = $project_files->fetchObject();
 	$directory_name = $scilab_case_study_project_files->directory_name . '/project_files/';
 	/*$str = substr($scilab_case_study_project_files->samplefilepath, strrpos($scilab_case_study_project_files->samplefilepath, '/'));
     $abstract_file = ltrim($str, '/');*/
+    //var_dump($final_report_data);die;
 	ob_clean();
 	header("Pragma: public");
 	header("Expires: 0");
