@@ -7,7 +7,7 @@ function scilab_case_study_abstract_bulk_approval_form($form, &$form_state)
 	$form = array();
 	$form['case_study_project'] = array(
 		'#type' => 'select',
-		'#title' => t('Title of the case study project'),
+		'#title' => t('Title of the Case Study Project'),
 		'#options' => _bulk_list_of_case_study_project(),
 		'#default_value' => $selected,
 		'#ajax' => array(
@@ -18,7 +18,7 @@ function scilab_case_study_abstract_bulk_approval_form($form, &$form_state)
 	);
 	$form['case_study_actions'] = array(
 		'#type' => 'select',
-		'#title' => t('Please select action for case study project'),
+		'#title' => t('Please select action for Case Study Project'),
 		'#options' => _bulk_list_case_study_actions(),
 		'#default_value' => 0,
 		'#prefix' => '<div id="ajax_selected_case_study_action" style="color:red;">',
@@ -125,48 +125,7 @@ function scilab_case_study_abstract_bulk_approval_form_submit($form, &$form_stat
 							':submitted_abstract_id' => $abstract_data->id
 						));
 					} //$abstract_data = $abstracts_q->fetchObject()
-					drupal_set_message(t('Approved case study project. Use the checkbox below to publish this case study on the completed case studies page.'), 'status');
-					// email 
-					$email_subject = t('[!site_name][case study Project] Your uploaded case study project have been approved', array(
-						'!site_name' => variable_get('site_name', '')
-					));
-					$email_body = array(
-						0 => t('
-
-Dear !user_name,
-
-Your uploaded abstract for the case study project has been approved:
-
-Title of case study project  : ' . $user_info->project_title . '
-
-Best Wishes,
-
-!site_name Team,
-FOSSEE,IIT Bombay', array(
-							'!site_name' => variable_get('site_name', ''),
-							'!user_name' => $user_data->name
-						))
-					);
-					/** sending email when everything done **/
-					$email_to = $user_data->mail;
-					$from = variable_get('case_study_from_email', '');
-					$bcc = variable_get('case_study_emails', '');
-					$cc = variable_get('case_study_cc_emails', '');
-					$params['standard']['subject'] = $email_subject;
-					$params['standard']['body'] = $email_body;
-					$params['standard']['headers'] = array(
-						'From' => $from,
-						'MIME-Version' => '1.0',
-						'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
-						'Content-Transfer-Encoding' => '8Bit',
-						'X-Mailer' => 'Drupal',
-						'Cc' => $cc,
-						'Bcc' => $bcc
-					);
-					if (!drupal_mail('scilab_case_study', 'standard', $email_to, language_default(), $params, $from, TRUE))
-					{
-						$msg = drupal_set_message('Error sending email message.', 'error');
-					} //!drupal_mail('scilab_case_study', 'standard', $email_to, language_default(), $params, $from, TRUE)
+					drupal_set_message(t('Approved Case Study Project. Use the checkbox below to publish this case study on the completed case studies page.'), 'status');
 					drupal_goto('case-study-project/manage-proposal/status/' . $form_state['values']['case_study_project']);
 				} //$form_state['values']['case_study_actions'] == 1
 				elseif ($form_state['values']['case_study_actions'] == 2)
@@ -194,13 +153,13 @@ FOSSEE,IIT Bombay', array(
 					} //$abstract_data = $abstracts_q->fetchObject()
 					drupal_set_message(t('Resubmit the project files'), 'status');
 					// email 
-					$email_subject = t('[!site_name][case study Project] Your uploaded case study project have been marked as pending', array(
+					$email_subject = t('[!site_name][Case Study Project] Your uploaded Case Study Project have been marked as pending', array(
 						'!site_name' => variable_get('site_name', '')
 					));
 					$email_body = array(
 						0 => t('
 
-Dear !user_name,
+Dear ' . $user_info->contributor_name . ',
 
 Kindly resubmit the project files for the project : ' . $user_info->project_title . '.
 
@@ -236,7 +195,7 @@ FOSSEE,IIT Bombay', array(
 						drupal_set_message('Error sending email message.', 'error');
 					} //!drupal_mail('scilab_case_study', 'standard', $email_to, language_default(), $params, $from, TRUE)
 				} //$form_state['values']['case_study_actions'] == 2
-				elseif ($form_state['values']['case_study_actions'] == 3) //disapprove and delete entire case study project
+				elseif ($form_state['values']['case_study_actions'] == 3) //disapprove and delete entire Case Study Project
 				{
 					if (strlen(trim($form_state['values']['message'])) <= 30)
 					{
@@ -251,15 +210,15 @@ FOSSEE,IIT Bombay', array(
 					} //!user_access('case_study bulk delete code')
 					if (scilab_case_study_abstract_delete_project($form_state['values']['case_study_project'])) //////
 					{
-						drupal_set_message(t('Dis-Approved and Deleted Entire case study project.'), 'status');
-						$email_subject = t('[!site_name][case study Project] Your uploaded case study project have been marked as dis-approved', array(
+						drupal_set_message(t('Dis-Approved and Deleted Entire Case Study Project.'), 'status');
+						$email_subject = t('[!site_name][Case Study Project] Your uploaded Case Study Project have been marked as dis-approved', array(
 						'!site_name' => variable_get('site_name', '')
 					));
 					$email_body = array(
 						0 => t('
-Dear !user_name,
+Dear ' . $user_info->contributor_name . ',
 
-Your uploaded case study project files for the case study project Title : ' . $user_info->project_title . ' have been marked as dis-approved.
+Your uploaded Case Study Project files for the Case Study Project Title : ' . $user_info->project_title . ' have been marked as dis-approved.
 
 Reason for dis-approval: ' . $form_state['values']['message'] . '
 
@@ -293,7 +252,7 @@ FOSSEE,IIT Bombay', array(
 					} //case_study_abstract_delete_project($form_state['values']['case_study_project'])
 					else
 					{
-						drupal_set_message(t('Error Dis-Approving and Deleting Entire case study project.'), 'error');
+						drupal_set_message(t('Error Dis-Approving and Deleting Entire Case Study Project.'), 'error');
 					}
 					// email 
 					
@@ -326,10 +285,10 @@ function _bulk_list_case_study_actions()
 	$case_study_actions = array(
 		0 => 'Please select...'
 	);
-	$case_study_actions[1] = 'Approve Entire case study Project';
+	$case_study_actions[1] = 'Approve Entire Case Study Project';
 	$case_study_actions[2] = 'Resubmit Project files';
-	$case_study_actions[3] = 'Dis-Approve Entire case study Project (This will delete case study Project)';
-	//$case_study_actions[4] = 'Delete Entire case study Project Including Proposal';
+	$case_study_actions[3] = 'Dis-Approve Entire Case Study Project (This will delete Case Study Project)';
+	//$case_study_actions[4] = 'Delete Entire Case Study Project Including Proposal';
 	return $case_study_actions;
 }
 function _case_study_details($case_study_proposal_id)
@@ -394,9 +353,9 @@ function _case_study_details($case_study_proposal_id)
 		$url = l('Upload abstract', 'case-study-project/abstract-code/upload');
 		$abstracts_query_process_filename = "File not uploaded";
 	}
-	$download_case_study = l('Download case study project','case-study-project/full-download/project/'.$case_study_proposal_id);
+	$download_case_study = l('Download Case Study Project','case-study-project/full-download/project/'.$case_study_proposal_id);
 	$return_html .= '<strong>Proposer Name:</strong><br />' . $abstracts_pro->name_title . ' ' . $abstracts_pro->contributor_name . '<br /><br />';
-	$return_html .= '<strong>Title of the case study Project:</strong><br />' . $abstracts_pro->project_title . '<br /><br />';
+	$return_html .= '<strong>Title of the Case Study Project:</strong><br />' . $abstracts_pro->project_title . '<br /><br />';
 	$return_html .= '<strong>Uploaded an abstract (brief outline) of the project:</strong><br />' . $abstract_filename . '<br /><br />';
 	$return_html .= '<strong>Uploaded Case Directory Folder:</strong><br />' . $abstracts_query_process_filename . '<br /><br />';
 	$return_html .= $download_case_study;

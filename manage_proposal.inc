@@ -84,7 +84,7 @@ function scilab_case_study_proposal_all()
             $approval_date,
             $actual_completion_date,
             $approval_status,
-            l('Status', 'case-study-project/manage-proposal/status/' . $proposal_data->id) . ' | ' . l('Edit', 'case-study-project/manage-proposal/edit/' . $proposal_data->id),
+            l('Status', 'case-study-project/manage-proposal/status/' . $proposal_data->id) . ' | ' . l('Edit', 'case-study-project/manage-proposal/edit/' . $proposal_data->id) . ' | ' . l('Send Reminder Mail', 'case-study-project/manage-proposal/send-reminder-mail/' . $proposal_data->id),
         );
     } //$proposal_data = $proposal_q->fetchObject()
     /* check if there are any pending proposals */
@@ -201,13 +201,13 @@ function scilab_case_study_proposal_approval_form($form, &$form_state)
         } //$proposal_data = $proposal_q->fetchObject()
         else {
             drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-            drupal_goto('case-study-project/manage-proposal');
+            drupal_goto('case-study-project/manage-proposal/all');
             return;
         }
     } //$proposal_q
     else {
         drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     }
     if ($proposal_data->faculty_name == '') {
@@ -337,7 +337,7 @@ function scilab_case_study_proposal_approval_form($form, &$form_state)
     }
     $form['approval'] = array(
         '#type' => 'radios',
-        '#title' => t('CFD Case Study proposal'),
+        '#title' => t('Select an action for the case study'),
         '#options' => array(
             '1' => 'Approve',
             '2' => 'Disapprove',
@@ -366,7 +366,7 @@ function scilab_case_study_proposal_approval_form($form, &$form_state)
     );
     $form['cancel'] = array(
         '#type' => 'item',
-        '#markup' => l(t('Cancel'), 'case-study-project/manage-proposal'),
+        '#markup' => l(t('Cancel'), 'case-study-project/manage-proposal/all'),
     );
     return $form;
 }
@@ -393,13 +393,13 @@ function scilab_case_study_proposal_approval_form_submit($form, &$form_state)
         } //$proposal_data = $proposal_q->fetchObject()
         else {
             drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-            drupal_goto('case-study-project/manage-proposal');
+            drupal_goto('case-study-project/manage-proposal/all');
             return;
         }
     } //$proposal_q
     else {
         drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     }
     if ($form_state['values']['approval'] == 1) {
@@ -432,7 +432,7 @@ function scilab_case_study_proposal_approval_form_submit($form, &$form_state)
         }
 
         drupal_set_message('Case Study with the proposal No. ' . $proposal_id . ' has been approved and the user is notified of the approval via email.', 'status');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     } //$form_state['values']['approval'] == 1
     else if ($form_state['values']['approval'] == 2) {
@@ -466,7 +466,7 @@ function scilab_case_study_proposal_approval_form_submit($form, &$form_state)
         }
 
         drupal_set_message('Case Study with the proposal No. ' . $proposal_id . ' is dis-approved and the useris notified of the dis-approval via email.', 'error');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     } //$form_state['values']['approval'] == 2
 }
@@ -493,13 +493,13 @@ function scilab_case_study_proposal_status_form($form, &$form_state)
         } //$proposal_data = $proposal_q->fetchObject()
         else {
             drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-            drupal_goto('case-study-project/manage-proposal');
+            drupal_goto('case-study-project/manage-proposal/all');
             return;
         }
     } //$proposal_q
     else {
         drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     }
     if ($proposal_data->faculty_name == '') {
@@ -697,13 +697,13 @@ function scilab_case_study_proposal_status_form_submit($form, &$form_state)
         } //$proposal_data = $proposal_q->fetchObject()
         else {
             drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-            drupal_goto('case-study-project/manage-proposal');
+            drupal_goto('case-study-project/manage-proposal/all');
             return;
         }
     } //$proposal_q
     else {
         drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     }
     /* set the book status to completed */
@@ -741,9 +741,9 @@ function scilab_case_study_proposal_status_form_submit($form, &$form_state)
             drupal_set_message('Error sending email message.', 'error');
         }
 
-        drupal_set_message('Congratulations! CFD Case Study proposal has been marked as completed. User has been notified of the completion.', 'status');
+        drupal_set_message('Scilab Case Study proposal has been marked as completed. User has been notified of the completion.', 'status');
     }
-    drupal_goto('case-study-project/manage-proposal');
+    drupal_goto('case-study-project/manage-proposal/all');
     return;
 
 }
@@ -767,13 +767,13 @@ function scilab_case_study_proposal_edit_form($form, &$form_state)
         } //$proposal_data = $proposal_q->fetchObject()
         else {
             drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-            drupal_goto('case-study-project/manage-proposal');
+            drupal_goto('case-study-project/manage-proposal/all');
             return;
         }
     } //$proposal_q
     else {
         drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     }*/
     $user_data = user_load($proposal_data->uid);
@@ -973,7 +973,7 @@ function scilab_case_study_proposal_edit_form($form, &$form_state)
     );
     $form['cancel'] = array(
         '#type' => 'item',
-        '#markup' => l(t('Cancel'), 'case-study-project/manage-proposal'),
+        '#markup' => l(t('Cancel'), 'case-study-project/manage-proposal/all'),
     );
     return $form;
 }
@@ -996,13 +996,13 @@ function scilab_case_study_proposal_edit_form_submit($form, &$form_state)
         } //$proposal_data = $proposal_q->fetchObject()
         else {
             drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-            drupal_goto('case-study-project/manage-proposal');
+            drupal_goto('case-study-project/manage-proposal/all');
             return;
         }
     } //$proposal_q
     else {
         drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
-        drupal_goto('case-study-project/manage-proposal');
+        drupal_goto('case-study-project/manage-proposal/all');
         return;
     }
     /* delete proposal */
@@ -1034,7 +1034,7 @@ function scilab_case_study_proposal_edit_form_submit($form, &$form_state)
             $query->condition('id', $proposal_id);
             $num_deleted = $query->execute();
             drupal_set_message(t('Proposal Deleted'), 'status');
-            drupal_goto('case-study-project/manage-proposal');
+            drupal_goto('case-study-project/manage-proposal/all');
             return;
         } //rrmdir_project($proposal_id) == TRUE
     } //$form_state['values']['delete_proposal'] == 1
@@ -1090,4 +1090,122 @@ function scilab_case_study_proposal_edit_form_submit($form, &$form_state)
     );
     $result = db_query($query, $args);
     drupal_set_message(t('Proposal Updated'), 'status');
+}
+
+
+/******************************************************************************/
+/*************************** Reminder mail about the proposal *****************************/
+/******************************************************************************/
+function scilab_case_study_proposal_send_reminder_mail_form($form, &$form_state)
+{
+    global $user;
+    /* get current proposal */
+    $proposal_id = (int) arg(3);
+    $query = db_select('case_study_proposal');
+    $query->fields('case_study_proposal');
+    $query->condition('id', $proposal_id);
+    $proposal_q = $query->execute();
+    if ($proposal_q) {
+        if ($proposal_data = $proposal_q->fetchObject()) {
+            /* everything ok */
+        } //$proposal_data = $proposal_q->fetchObject()
+        else {
+            drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
+            drupal_goto('case-study-project/manage-proposal/all');
+            return;
+        }
+    } //$proposal_q
+    else {
+        drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
+        drupal_goto('case-study-project/manage-proposal/all');
+        return;
+    }
+    $form['contributor_name'] = array(
+        '#type' => 'item',
+        '#markup' => l($proposal_data->name_title . ' ' . $proposal_data->contributor_name, 'user/' . $proposal_data->uid),
+        '#title' => t('Student name'),
+    );
+    $form['student_email_id'] = array(
+        '#title' => t('Contributor Email'),
+        '#type' => 'item',
+        '#markup' => user_load($proposal_data->uid)->mail,
+        '#title' => t('Email'),
+    );
+    $form['contact_no'] = array(
+        '#type' => 'item',
+        '#markup' => $proposal_data->contact_no,
+        '#title' => t('Contact no'),
+    );
+    $form['project_title'] = array(
+        '#type' => 'item',
+        '#markup' => $proposal_data->project_title,
+        '#title' => t('Title of the Case Study Project'),
+    );
+    $form['expected_completion_date'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Expected Date of Completion'),
+        '#default_value' => date('d/m/Y', $proposal_data->expected_date_of_completion),
+        '#disabled' => true,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Click to send mail to the contributor'),
+    );
+    $form['cancel'] = array(
+        '#type' => 'item',
+        '#markup' => l(t('Cancel'), 'case-study-project/manage-proposal/all'),
+    );
+    return $form;
+}
+function scilab_case_study_proposal_send_reminder_mail_form_submit($form, &$form_state)
+{
+    global $user;
+    /* get current proposal */
+    $proposal_id = (int) arg(3);
+    //$proposal_q = db_query("SELECT * FROM {case_study_proposal} WHERE id = %d", $proposal_id);
+    $query = db_select('case_study_proposal');
+    $query->fields('case_study_proposal');
+    $query->condition('id', $proposal_id);
+    $proposal_q = $query->execute();
+    if ($proposal_q) {
+        if ($proposal_data = $proposal_q->fetchObject()) {
+            /* everything ok */
+        } //$proposal_data = $proposal_q->fetchObject()
+        else {
+            drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
+            drupal_goto('case-study-project/manage-proposal/all');
+            return;
+        }
+    } //$proposal_q
+    else {
+        drupal_set_message(t('Invalid proposal selected. Please try again.'), 'error');
+        drupal_goto('case-study-project/manage-proposal/all');
+        return;
+    }
+    /* set the book status to completed */
+        /* sending email */
+        $user_data = user_load($proposal_data->uid);
+        $email_to = $user_data->mail;
+        $from = variable_get('case_study_from_email', '');
+        $bcc = $user->mail . ', ' . variable_get('case_study_emails', '');
+        $cc = variable_get('case_study_cc_emails', '');
+        $params['case_study_proposal_send_reminder_mail']['proposal_id'] = $proposal_id;
+        $params['case_study_proposal_send_reminder_mail']['user_id'] = $proposal_data->uid;
+        $params['case_study_proposal_send_reminder_mail']['headers'] = array(
+            'From' => $from,
+            'MIME-Version' => '1.0',
+            'Content-Type' => 'text/plain; charset=UTF-8; format=flowed; delsp=yes',
+            'Content-Transfer-Encoding' => '8Bit',
+            'X-Mailer' => 'Drupal',
+            'Cc' => $cc,
+            'Bcc' => $bcc,
+        );
+        if (!drupal_mail('scilab_case_study', 'case_study_proposal_send_reminder_mail', $email_to, language_default(), $params, $from, true)) {
+            drupal_set_message('Error sending email message.', 'error');
+        }
+
+        drupal_set_message('The user has been notified about the last date of submission.', 'status');
+        drupal_goto('case-study-project/manage-proposal/all');
+    return;
+
 }

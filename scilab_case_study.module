@@ -110,6 +110,19 @@ function scilab_case_study_menu()
         'type' => MENU_CALLBACK,
         'file' => 'manage_proposal.inc',
     );
+    $items['case-study-project/manage-proposal/send-reminder-mail'] = array(
+        'title' => 'Send Reminder to Contriubutor about Proposal Completion Date',
+        'description' => 'Send Reminder to Contriubutor about Proposal Completion Date',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'scilab_case_study_proposal_send_reminder_mail_form',
+        ),
+        'access arguments' => array(
+            'Case Study manage proposal',
+        ),
+        'type' => MENU_CALLBACK,
+        'file' => 'manage_proposal.inc',
+    );
     $items['case-study-project/manage-proposal/status'] = array(
         'title' => 'Proposal Status',
         'description' => 'Proposal Status',

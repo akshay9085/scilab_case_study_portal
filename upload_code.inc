@@ -166,11 +166,17 @@ function scilab_case_study_upload_abstract_code_form_validate($form, &$form_stat
     //var_dump($form);die;
     if (isset($_FILES['files'])) {
         /* check if atleast one source or result file is uploaded */
+        $existing_uploaded_A_file = default_value_for_uploaded_files("A", $form_state['values']['prop_id']);
+        $existing_uploaded_S_file = default_value_for_uploaded_files("S", $form_state['values']['prop_id']);
+        if(!$existing_uploaded_A_file){
+            if (!($_FILES['files']['name']['upload_case_study_final_report'])) {
+            form_set_error('upload_case_study_final_report', t('Please upload the final report'));
+        }
+        }
+        if(!$existing_uploaded_S_file){
         if (!($_FILES['files']['name']['upload_case_study_developed_process'])) {
             form_set_error('upload_case_study_developed_process', t('Please upload the case files'));
         }
-        if (!($_FILES['files']['name']['upload_case_study_final_report'])) {
-            form_set_error('upload_case_study_final_report', t('Please upload the final report'));
         }
 
         /* check for valid filename extensions */
@@ -294,10 +300,10 @@ function scilab_case_study_upload_abstract_code_form_submit($form, &$form_state)
                 case 'S':
                     if (file_exists($root_path . $dest_path . $_FILES['files']['name'][$file_form_name]))
                     {
-                        //unlink($root_path . $dest_path . $_FILES['files']['name'][$file_form_name]);
-                        drupal_set_message(t("File !filename already exists hence overwirtten the exisitng file ", array(
+                        move_uploaded_file($_FILES['files']['tmp_name'][$file_form_name], $root_path . $dest_path . $_FILES['files']['name'][$file_form_name]);
+                        drupal_set_message(t("File !filename already exists, hence overwritten the exisitng file ", array(
                             '!filename' => $_FILES['files']['name'][$file_form_name]
-                        )), 'error');
+                        )), 'status');
                     } //file_exists($root_path . $dest_path . $_FILES['files']['name'][$file_form_name])
                     /* uploading file */
                     else if (move_uploaded_file($_FILES['files']['tmp_name'][$file_form_name], $root_path . $dest_path . $_FILES['files']['name'][$file_form_name]))
@@ -335,7 +341,7 @@ function scilab_case_study_upload_abstract_code_form_submit($form, &$form_state)
                             $query = "UPDATE {case_study_submitted_abstracts_file} SET filename = :filename, filepath=:filepath, filemime=:filemime, filesize=:filesize, timestamp=:timestamp WHERE proposal_id = :proposal_id AND filetype = :filetype";
                             $args = array(
                                 ":filename" => $_FILES['files']['name'][$file_form_name],
-                                ":filepath" => $file_path . $_FILES['files']['name'][$file_form_name],
+                                ":filepath" => $_FILES['files']['name'][$file_form_name],
                                 ":filemime" => mime_content_type($root_path . $dest_path . $_FILES['files']['name'][$file_form_name]),
                                 ":filesize" => $_FILES['files']['size'][$file_form_name],
                                 ":timestamp" => time(),
@@ -354,10 +360,10 @@ function scilab_case_study_upload_abstract_code_form_submit($form, &$form_state)
                 case 'A':
                     if (file_exists($root_path . $dest_path . $_FILES['files']['name'][$file_form_name]))
                     {
-                        //unlink($root_path . $dest_path . $_FILES['files']['name'][$file_form_name]);
-                        drupal_set_message(t("File !filename already exists hence overwirtten the exisitng file ", array(
+                        move_uploaded_file($_FILES['files']['tmp_name'][$file_form_name], $root_path . $dest_path . $_FILES['files']['name'][$file_form_name]);
+                        drupal_set_message(t("File !filename already exists, hence overwritten the exisitng file ", array(
                             '!filename' => $_FILES['files']['name'][$file_form_name]
-                        )), 'error');
+                        )), 'status');
                     } //file_exists($root_path . $dest_path . $_FILES['files']['name'][$file_form_name])
                     /* uploading file */
                     else if (move_uploaded_file($_FILES['files']['tmp_name'][$file_form_name], $root_path . $dest_path . $_FILES['files']['name'][$file_form_name]))
@@ -395,7 +401,7 @@ function scilab_case_study_upload_abstract_code_form_submit($form, &$form_state)
                             $query = "UPDATE {case_study_submitted_abstracts_file} SET filename = :filename, filepath=:filepath, filemime=:filemime, filesize=:filesize, timestamp=:timestamp WHERE proposal_id = :proposal_id AND filetype = :filetype";
                             $args = array(
                                 ":filename" => $_FILES['files']['name'][$file_form_name],
-                                ":filepath" => $file_path . $_FILES['files']['name'][$file_form_name],
+                                ":filepath" => $_FILES['files']['name'][$file_form_name],
                                 ":filemime" => mime_content_type($root_path . $dest_path . $_FILES['files']['name'][$file_form_name]),
                                 ":filesize" => $_FILES['files']['size'][$file_form_name],
                                 ":timestamp" => time(),
