@@ -137,8 +137,8 @@ function scilab_case_study_menu()
         'file' => 'manage_proposal.inc',
     );
     $items['case-study-project/abstract-approval/bulk'] = array(
-        'title' => 'CS Manage Code',
-        'description' => 'Bulk Mangage',
+        'title' => 'Manage Case Study Submissions',
+        'description' => 'Manage Case Study Submissions',
         'page callback' => 'drupal_get_form',
         'page arguments' => array(
             'scilab_case_study_abstract_bulk_approval_form',
@@ -167,7 +167,7 @@ function scilab_case_study_menu()
         'weight' => 2,
     );
     $items['case-study-project/abstract-code'] = array(
-        'title' => 'Case Study Project Directory Submission',
+        'title' => 'Case Study Submission',
         'description' => 'Abstract Submission',
         'page callback' => 'scilab_case_study_abstract',
         'access callback' => 'user_access',
@@ -177,7 +177,7 @@ function scilab_case_study_menu()
         'file' => 'upload_code.inc',
     );
     $items['case-study-project/abstract-code/upload'] = array(
-        'title' => 'Case Study Project Directory Submission',
+        'title' => 'Case Study Submission',
         'description' => 'Project Upload',
         'page callback' => 'drupal_get_form',
         'access callback' => 'user_access',

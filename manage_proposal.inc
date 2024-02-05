@@ -50,7 +50,7 @@ function scilab_case_study_proposal_all()
                 $approval_status = 'Pending';
                 break;
             case 1:
-                $approval_status = 'Approved';
+                $approval_status = 'Approved | ' . l('Send Reminder Mail', 'case-study-project/manage-proposal/send-reminder-mail/' . $proposal_data->id);
                 break;
             case 2:
                 $approval_status = 'Dis-approved';
@@ -84,7 +84,7 @@ function scilab_case_study_proposal_all()
             $approval_date,
             $actual_completion_date,
             $approval_status,
-            l('Status', 'case-study-project/manage-proposal/status/' . $proposal_data->id) . ' | ' . l('Edit', 'case-study-project/manage-proposal/edit/' . $proposal_data->id) . ' | ' . l('Send Reminder Mail', 'case-study-project/manage-proposal/send-reminder-mail/' . $proposal_data->id),
+            l('Status', 'case-study-project/manage-proposal/status/' . $proposal_data->id) . ' | ' . l('Edit', 'case-study-project/manage-proposal/edit/' . $proposal_data->id),
         );
     } //$proposal_data = $proposal_q->fetchObject()
     /* check if there are any pending proposals */

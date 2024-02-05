@@ -646,7 +646,7 @@ function scilab_case_study_edit_upload_abstract_code_form_submit($form, &$form_s
                 $query = "UPDATE {case_study_submitted_abstracts_file} SET filename = :filename, filepath=:filepath, filemime=:filemime, filesize=:filesize, timestamp=:timestamp WHERE proposal_id = :proposal_id AND filetype = :filetype";
                 $args = array(
                     ":filename" => $_FILES['files']['name'][$file_form_name],
-                    ":filepath" => $file_path . $_FILES['files']['name'][$file_form_name],
+                    ":filepath" => $dest_path_project_files . $_FILES['files']['name'][$file_form_name],
                     ":filemime" => mime_content_type($root_path . $dest_path_project_files . $_FILES['files']['name'][$file_form_name]),
                     ":filesize" => $_FILES['files']['size'][$file_form_name],
                     ":timestamp" => time(),
