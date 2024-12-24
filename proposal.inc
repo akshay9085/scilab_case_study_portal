@@ -255,7 +255,7 @@ function scilab_case_study_proposal_form($form, &$form_state, $no_js_use = FALSE
 		'#title' => t('Project Title'),
 		'#size' => 250,
 		'#maxlength' => 250,
-		'#description' => t('Maximum character limit is 250'),
+		'#description' => t('Maximum character limit is 250' . '<p style="color:red;font-weight:bold;"><span>Important: When mentioning the name of your chosen case study project in the proposal form, use this format: "NameOfCaseStudyProject (SCSH25)"</p>'),
 		'#required' => TRUE,
 		'#validated' => TRUE,
 	);
